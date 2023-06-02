@@ -8,6 +8,7 @@ import copy
 import types
 import numpy as np
 from typing import Union, List
+import warnings
 
 SUBPROCESSES = []
 
@@ -178,6 +179,8 @@ def multi_d_acquisition_events(
             raise ValueError(
                 "Length of time interval list should be equal to num_time_points"
             )
+        if not all(i >= 0 for i in time_interval_s):
+            warnings.warn("Found negative values in time_interval_s list. Events are executed in order, thus negative values will not have an effect.")
     has_zsteps = z_start is not None and z_step is not None and z_end is not None
     z_positions = None
     if xy_positions is not None:
